@@ -127,3 +127,14 @@ sim <- function(p,q,nreps) {
   cat("P(c = 1 | X1 = X2) = ", countc1x1eqx2/nreps, "\n")
   cat("P(c = 2 | X1 = X2) = ", countc2x1eqx2/nreps, "\n")
 }
+
+
+# Problem 3
+
+# P[1 ace]
+# > choose(4,1) * choose(48,4) / choose(52,5)
+# [1] 0.2994736
+# P[3 diamonds]
+# > choose(13,3) * choose(39,2) / choose(52,5)
+# [1] 0.08154262
+# Therefore P[1 ace] > P[3 diamonds]
