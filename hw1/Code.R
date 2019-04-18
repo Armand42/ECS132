@@ -1,3 +1,6 @@
+# Armand Nasseri - 912679383
+# Thomas Le -
+
 # Problem 1
 # i being starting square w/ values 0-7
 # k being num of turns to reach or pass square 0
@@ -129,12 +132,4 @@ sim <- function(p,q,nreps) {
 }
 
 
-# Problem 3
 
-# P[1 ace]
-# > choose(4,1) * choose(48,4) / choose(52,5)
-# [1] 0.2994736
-# P[3 diamonds]
-# > choose(13,3) * choose(39,2) / choose(52,5)
-# [1] 0.08154262
-# Therefore P[1 ace] > P[3 diamonds]
