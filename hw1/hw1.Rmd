@@ -1,7 +1,7 @@
 ---
-title: "hw1"
-author: "Thomas Le"
-date: "April 18, 2019"
+title: "hw1 problem 2"
+author: "Thomas Le ID: 913081873"
+date: "Armand Nasseri ID: 912679383"
 output: pdf_document
 ---
 
