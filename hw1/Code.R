@@ -1,5 +1,5 @@
 # Armand Nasseri - 912679383
-# Thomas Le -
+# Thomas Le - 913081873
 
 # Problem 1
 # i being starting square w/ values 0-7
@@ -126,9 +126,9 @@ sim <- function(p,q,nreps) {
   }
   
   # cat("Number of occurences of X1 = X2:", countx1eqx2, "\n")
-  cat("P(c = 0 | X1 = X2) = ", countc0x1eqx2/nreps, "\n")
-  cat("P(c = 1 | X1 = X2) = ", countc1x1eqx2/nreps, "\n")
-  cat("P(c = 2 | X1 = X2) = ", countc2x1eqx2/nreps, "\n")
+  cat("P(c = 0 | X1 = X2) = ", countc0x1eqx2/nreps, "\n")  # 0.37171
+  cat("P(c = 1 | X1 = X2) = ", countc1x1eqx2/nreps, "\n")  # 0.11395
+  cat("P(c = 2 | X1 = X2) = ", countc2x1eqx2/nreps, "\n")  # 0.02501
 }
 
 
