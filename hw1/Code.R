@@ -1,5 +1,5 @@
 # Armand Nasseri - 912679383
-# Thomas Le -
+# Thomas Le - 913081873
 
 # Problem 1
 # i being starting square w/ values 0-7
