@@ -23,11 +23,13 @@ Looking to solve:
 ```
 P(c = 0 | X1 = X2) = P(c = 0 | X1 = X2 = 1) + P(c = 0 | X1 = X2 = 2)
                
-P(c = 0 | X1 = X2 = 1 ) = P(w/ 2 active nodes, only 1 sends for epoch 1) * [P(no activate and the one active does not send) + P(activate and X2=1) ]
+P(c = 0 | X1 = X2 = 1 ) = P(w/ 2 active nodes, only 1 sends for epoch 1)
+                            * [P(no activate and the one active does not send) + P(activate and X2=1) ]
                         = 2p(1-p) * [(1-q)(1-p) + q2p(1-p)]
                         = 0.24192
                           
-P(c = 0 | X1 = X2 = 2) = P(w/ 2 active nodes, neither send, epoch 1) * P(w/ 2 active nodes, neither send, epoch 2)
+P(c = 0 | X1 = X2 = 2) = P(w/ 2 active nodes, neither send, epoch 1) 
+                            * P(w/ 2 active nodes, neither send, epoch 2)
                         = (1-p)(1-p) * (1-p)(1-p)
                         = 0.1296
 
