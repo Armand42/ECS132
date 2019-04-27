@@ -1,0 +1,77 @@
+---
+title: "hw1 problem 2"
+author: "Thomas Le ID: 913081873"
+date: "Armand Nasseri ID: 912679383"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Problem 2
+
+Looking to solve:
+
+- P(c = 0 | X1 = X2)
+- P(c = 1 | X1 = X2)
+- P(c = 2 | X1 = X2)
+
+
+## 0 Collisions
+
+```
+P(c = 0 | X1 = X2) = P(c = 0 | X1 = X2 = 1) + P(c = 0 | X1 = X2 = 2)
+               
+P(c = 0 | X1 = X2 = 1 ) = P(w/ 2 active nodes, only 1 sends for epoch 1) * [P(no activate and the one active does not send) + P(activate and X2=1) ]
+                        = 2p(1-p) * [(1-q)(1-p) + q2p(1-p)]
+                        = 0.24192
+                          
+P(c = 0 | X1 = X2 = 2) = P(w/ 2 active nodes, neither send, epoch 1) * P(w/ 2 active nodes, neither send, epoch 2)
+                        = (1-p)(1-p) * (1-p)(1-p)
+                        = 0.1296
+
+=> P(c = 0 | X1 = X2) = 0.24192 + 0.1296 = 0.37152
+```
+
+## 1 Collision
+
+```
+P(c = 1 | X1 = X2) = P(c = 1 | X1 = X2 = 1) + P(c = 1 | X1 = X2 = 2)
+
+# collision in second epoch
+P(c = 1 | X1 = X2 = 1) = P(only 1 node sends in epoch 1) * P(both send | node activates)
+                       = 2p(1-p) * p*p*q
+                       = 0.06144
+                  
+# collision in 1st epoch, results in X1 != 1, so we discount that
+
+# collision in 1st epoch
+P(c = 1 | X1 = X2 = 2) = P(both send) * P(neither send)
+                       = p*p * (1-p)*(1-p)
+                       = 0.0576
+                       
+=> P(c = 1 | X1 = X2) = 0.06144 + 0.0576 = 0.11844
+```
+
+## 2 Collisions
+
+```
+P(c = 2 | X1 = X2) = P(c = 2 | X1 = X2 = 1) + P(c = 20| X1 = X2 = 2)
+
+P(c = 2 | X1 = X2 = 1) = 0
+
+P(c = 2 | X1 = X2 = 2) = P(both send in epoch 1) * P(both send in epoch 2)
+                       = p*p * p*p
+                       = 0.0256
+                       
+=> P(c = 2 | X1 = X2) = 0 + 0.0256 = 0.0256
+```
+
+## Summary
+- P(c = 0 | X1 = X2) = 0.24192 + 0.1296 = 0.37152
+- P(c = 1 | X1 = X2) = 0.06144 + 0.0576 = 0.11844
+- P(c = 2 | X1 = X2) = 0 + 0.0256 = 0.0256
+
+
+
