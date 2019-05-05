@@ -53,44 +53,52 @@ Thus, when X and Y are independent, then Var(X - Y) = Var(X) + Var(Y)
 
 ## 2.
 
+```
+Li is the the number of passengers on the bus after the bus leaves the ith stop.
+Bi is the number of passengers that board the bus on the ith stop
 
-```{r, echo=TRUE}
-sim1 <- function(nreps) {
-  nstops <- 2
-  count <- 0
-  li_arr <- 1:nreps
-  l2_arr <- 1:nreps
+L1 support = {0, 1, 2}
+
+E(L1) = 0(0.5) + 1(0.4) + 2(0.1) = 0.6
+
+L2 support = {0, 1, 2, 3, 4}
+
+P(L2 = 1) = 0.4096
+  - P(B1 = 0 and B2 = 1) = 0.5 * 0.4 = 0.2
+  - P(B1 = 1 and 0 leaves and B1 = 0) = 0.4 * 0.8 * 0.5 = 0.16
+  - P(B1 = 1 and 1 leaves and B2 = 1) = 0.4 * 0.2 * 0.4 = 0.032
+  - P(B1 = 2 and only 1 leaves and B2 = 0) = 0.1 * 2(0.2*0.8) * 0.5 = 0.016
+  - P(B1 = 2 and 2 leaves and B2 = 1) = 0.1 * 0.2*0.2 * 0.4 = 0.0016
   
-  for (i in 1:nstops) {
-    passengers <- 0
-    for (j in 1:nstops) {
-      for (k in 1:passengers) {
-        if (runif(1) < 0.2)
-          passengers <-  passengers - 1
-        newpass <- sample(0:2, 1, prob=c(0.5, 0.4, 0.1))
-        newpassengers <- passengers + newpass
-      }
-      if (j == 1) {
-        li_arr[rep] = passengers
-      } else {
-        l2_arr[rep] = passengers
-      }
-    }
-  }
+P(L2 = 2) = 0.2344
+  - P(B1 = 0 and B2 = 2) = 0.5 * 0.1 = 0.05
+  - P(B1 = 1 and 0 leaves and B2 = 1) = 0.4 * 0.8 * 0.4 = 0.128
+  - P(B1 = 1 and 1 leaves and B2 = 2) = 0.4 * 0.2 * 0.1 = 0.008
+  - P(B1 = 2 and 0 leaves and B2 = 0) = 0.1 * 0.8*0.8 * 0.5 = 0.032
+  - P(B1 = 2 and only 1 leaves and B2 = 1) = 0.1 * 2*(0.2*0.8) * 0.4 = 0.016
+  - P(B1 = 2 and 2 leaves and B2 = 2) = 0.1 * 0.2*0.2 * 0.1 = 0.0004
   
-  El1 = mean(l1_arr)
-  El2 = mean(l2_arr)
-  El2_minus_l1 = mean(l2_arr - l1_arr)
+P(L2 = 3) = 0.0708
+  - P(B1 = 1 and 0 leaves and B2 = 2) = 0.4 * 0.8 * 0.1 = 0.032
+  - P(B1 = 2 and 0 leaves and B2 = 1) = 0.1 * 0.8 * 0.8 * 0.4 = 0.0256
+  - P(B1 = 2 and 1 leaves and B2 = 2) = 0.1 * 2*(0.2 * 0.8) * 0.1 = 0.0032
   
-  # prob l1  = 1
-  sum(l1_arr == 1) / nreps
+P(L2 = 4) = 0.0064
+  - P(B1 = 2 and 0 leaves and B2 = 2) = 0.1 * 0.8 * 0.8 * 0.1 = 0.0064
   
-  # Prob l2 - l1 = -1
-  sum(l2_arr - l1_arr == -1) / nreps
-}
+E(L2) = 1 * 0.4096 + 2 * 0.2344 + 3 * 0.0708 + 4 * 0.0064 = 1.1164
+  
 ```
 
+
 # Problem 2
+
+```{r, echo=TRUE}
+e <- 6 * 0.5
+var <- 6*0.5 * (1-0.5)
+```
+
+
 
 # Problem 3
 
