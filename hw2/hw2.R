@@ -7,12 +7,14 @@ sim1 <- function(nreps) {
   for (i in 1:nreps) {
     passengers <- 0
     for (j in 1:nstops) {
-      for (k in 1:passengers) {
-        if (runif(1) < 0.2)
-          passengers <-  passengers - 1
-        newpass <- sample(0:2, 1, prob=c(0.5, 0.4, 0.1))
-        passengers <- passengers + newpass
-      }
+      if (passengers > 0) 
+        for (k in 1:passengers)
+          if (runif(1) < 0.2)
+            passengers <-  passengers - 1
+        
+      newpass <- sample(0:2, 1, prob=c(0.5, 0.4, 0.1))
+      passengers <- passengers + newpass
+          
       if (j == 1) {
         l1_arr[i] = passengers
       } else {
@@ -25,24 +27,15 @@ sim1 <- function(nreps) {
   El2 = mean(l2_arr)
   El2_minus_l1 = mean(l2_arr - l1_arr)
   
-  # prob l1  = 1
-  sum(l1_arr == 1) / nreps
-  
-  # Prob l2 - l1 = -1
-  sum(l2_arr - l1_arr == -1) / nreps
-  
   cat("E(l1) = ", El1, "\n")
   cat("E(l2) = ", El2, "\n")
   cat("E(l2-l1) = ", El2_minus_l1, "\n")
   
-  print(sum(l2_arr == 1) / nreps)
-  print(sum(l2_arr == 2) / nreps)
-  print(sum(l2_arr == 3) / nreps)
-  print(sum(l2_arr == 4) / nreps)
+  # print(sum(l2_arr == 1) / nreps)
+  # print(sum(l2_arr == 2) / nreps)
+  # print(sum(l2_arr == 3) / nreps)
+  # print(sum(l2_arr == 4) / nreps)
   
-  
-  # cat("P(l1 = 1) = ", sum(l1_arr == 1) / nreps, "\n")
-  # cat("P(l2 - l1 = -1) = ", sum(l2_arr - l1_arr == -1) / nreps, "\n")
 }
 
 ngtm <- function(k, m, nreps) {
@@ -64,15 +57,20 @@ ngtm <- function(k, m, nreps) {
     winnings = i
     total_winnings = total_winnings + winnings
     
-    if (consech < k) count <- count + 1
+    # if (consech < k) count <- count + 1
   }
-  cat("total winnings is: ", total_winnings, "\n")
-  return(total_winnings/nreps)
+  cat("Expected value is:", total_winnings/nreps, "\n");
 }
 
-permn <- function(m, n, FUN=NULL) {
-  combinations <- combn(m, n, function(x) {
-    p <- perms(n)
-    res <<- c(1,2)
-  })
+library("partitions")
+library("gtools")
+
+permn <- function(x, m, FUN=NULL) {
+  p <- permutations(length(x), m, x)
+  print(p)
+  
+  for (row in 1:nrow(p)) {
+    res <- FUN(p[row])
+    print(res)
+  }
 }
