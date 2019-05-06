@@ -7,35 +7,10 @@ output:
   html_document: default
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
- ```{r cars}
-# summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-# plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
-
 # Problem 1
 
 
-## 1.
+## 1.1
 
 ```
 Var(X - Y) = Var[X + (-Y)] = Var(X) + Var(Y) - 2Cov(X, Y) (mailing tube (3.73))
@@ -51,7 +26,7 @@ Thus, in this problem, Cov(X, Y) = E(XY) - E(X) * E(Y)
 Thus, when X and Y are independent, then Var(X - Y) = Var(X) + Var(Y)
 ```
 
-## 2.
+## 1.2
 
 ```
 Li is the the number of passengers on the bus after the bus leaves the ith stop.
@@ -87,15 +62,65 @@ P(L2 = 4) = 0.0064
   - P(B1 = 2 and 0 leaves and B2 = 2) = 0.1 * 0.8 * 0.8 * 0.1 = 0.0064
   
 E(L2) = 1 * 0.4096 + 2 * 0.2344 + 3 * 0.0708 + 4 * 0.0064 = 1.1164
+
+L2 - L1 support = {-2, -1, 0, 1, 2}
+
+P(L2 - L1 = -2) = 0.002
+  - P(B1 = 2 and 2 leaves and B2 = 0) = 0.1 * 0.2^2 * 0.5 = 0.002
   
+P(L2 - L1 = -1) = 0.072
+  - P(B1 = 1 and 1 leaves and B2 = 0) = 0.4 * 0.2 * 0.5 = 0.04
+  - P(B1 = 2 and 2 leaves and B2 = 1) = 0.1 * 2 * 0.2^2 * 0.4 = 0.0032
+  
+P(L2 - L1 = 1) = 0.232
+  - P(B1 = 0 and B2 = 1) = 0.5 * 0.4 = 0.2
+  - P(B1 = 1 and 1 leaves and B2 = 1) = 0.4 * 0.2 * 0.4 = 0.032
+  
+P(L2 - L1 = 2) = 0.0884
+  - P(B1 = 0 and B2 = 2) = 0.5 * 0.1 = 0.05
+  - P(B1 = 1 and 0 leaves and B2 = 2) = 0.4 * 0.8 * 0.1 = 0.032
+  - P(B1 = 2 and 0 leaves and B2 = 2) = 0.1 * 0.8^2 * 0.1 = 0.0064
+  
+E(L2 - L1) = -2 * 0.002 + -1 * 0.072 + 1 * 0.232 + 2 * 0.0884 = 0.3328
+
+E(L2^2) = 1^2 * 0.4096 + 2^2 * 0.2344 + 3^2 * 0.0708 + 4^2 * 0.0064 = 2.0868
+
+Var(L2) = E(L2^2) - (E(L2))^2 = 2.0868 - 1.1164^2 = 0.840451
+
+E(L1^2) = 0(0.5) + 1^2 * (0.4) + 2^2 * (0.1) = 0.8
+
+Var(L1) = E(L1^2) - (E(L1))^2 = 0.8 - 0.6^2 = 0.44
+
+E((L2 - L1)^2 = -2^2 * 0.002 + -1^2 * 0.072 + 1^2 * 0.232 + 2^2 * 0.0884 = 0.5056
+
+Var(L2 - L1) = E((L2-L1)^2) - (E(L2-L1))^2 = 0.5056 - 0.3328^2 = 0.3948
+
+Var(X) - Var(Y) = Var(L2) - Var(L1) = 0.840451 - 0.44 = 0.400451
+
 ```
 
 
 # Problem 2
 
-```{r, echo=TRUE}
-e <- 6 * 0.5
-var <- 6*0.5 * (1-0.5)
+```
+Let E(X) be the expected value of the amount of money to win the game.
+The game ends when r = 3 consecutive heads are tossed or there are s = 6 total tosses.
+
+
+E(X) = 1P(1) + 2P(2) + 3P(3) + 4P(4) + 5P(5) + 6P(6)
+
+P(1) = 0            # because require 3 consec heads to stop
+P(2) = 0
+P(3) = (1/2)^3      # HHH
+P(4) = (1/2)^4      # THHHH
+P(5) = 2 * (1/2)^5  # TTHHH or HTHHH
+P(6) = 1 - P(3 or 4 or 5)
+     = 1 - 0.25
+     = 0.75
+     
+=> E(X) = 3*0.125 + 4*0.0625 + 5*0.0625 + 6*0.75
+        = $5.44
+        
 ```
 
 
@@ -105,21 +130,32 @@ var <- 6*0.5 * (1-0.5)
 
 
 # Problem 4
-1. The values the random variable can take are {(1,1), (1,2), (1,3), (1,4), (2,1), (2,2), (2,3), (2,4), (3,1), (3,2), (3,3), (3,4), ( 4,1), (4,2), (4,3), (4,4)}
-2. The PMF is:
+
+## 4.1
+
+The values the random variable X can take are X = {2, 3, 4, 5, 6, 7, 8}
+
+e.g the rolls can be: {(1,1), (1,2), (1,3), (1,4), (2,1), (2,2), (2,3), (2,4), (3,1), (3,2), (3,3), (3,4), (4,1), (4,2), (4,3), (4,4)}
+
+
+## 4.2
+
+The PMF is:
 
 | X| 2 | 3 | 4 | 5 | 6 | 7 | 8 
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | P(x) | 1/16  | 2/16  | 3/16 | 4/16  | 3/16 | 2/16 | 1/16
 
-3. The Expected value of X is:
+## 4.3 
+
+The Expected value of X is:
 
 `E(x) = x*f(x) = 2*(1/16) + 3*(2/16) + 4*(3/16) + 5*(4/16) + 6(3/16) + 7*(2/16) + 8*(1/16) = 80/16`
 
  
 # Problem 5
 
-## 1.
+## 5.1
 
 ```
 The PMF of x:
@@ -136,7 +172,7 @@ plot(dbinom(X,10,0.97), col="black", main = "Binomial Distribution", xlab = "Num
 
 
  
-## 2.
+## 5.2
 
 The rate of failure p' = 1 - 0.97 = 0.03
 

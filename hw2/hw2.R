@@ -4,21 +4,19 @@ sim1 <- function(nreps) {
   l1_arr <- 1:nreps
   l2_arr <- 1:nreps
   
-  for (rep in 1:nreps) {
-    for (i in 1:nstops) {
-      passengers <- 0
-      for (j in 1:nstops) {
-        for (k in 1:passengers) {
-          if (runif(1) < 0.2)
-            passengers <-  passengers - 1
-          newpass <- sample(0:2, 1, prob=c(0.5, 0.4, 0.1))
-          passengers <- passengers + newpass
-        }
-        if (j == 1) {
-          l1_arr[rep] = passengers
-        } else {
-          l2_arr[rep] = passengers
-        }
+  for (i in 1:nreps) {
+    passengers <- 0
+    for (j in 1:nstops) {
+      for (k in 1:passengers) {
+        if (runif(1) < 0.2)
+          passengers <-  passengers - 1
+        newpass <- sample(0:2, 1, prob=c(0.5, 0.4, 0.1))
+        passengers <- passengers + newpass
+      }
+      if (j == 1) {
+        l1_arr[i] = passengers
+      } else {
+        l2_arr[i] = passengers
       }
     }
   }
@@ -36,8 +34,15 @@ sim1 <- function(nreps) {
   cat("E(l1) = ", El1, "\n")
   cat("E(l2) = ", El2, "\n")
   cat("E(l2-l1) = ", El2_minus_l1, "\n")
-  cat("P(l1 = 1) = ", sum(l1_arr == 1) / nreps, "\n")
-  cat("P(l2 - l1 = -1) = ", sum(l2_arr - l1_arr == -1) / nreps, "\n")
+  
+  print(sum(l2_arr == 1) / nreps)
+  print(sum(l2_arr == 2) / nreps)
+  print(sum(l2_arr == 3) / nreps)
+  print(sum(l2_arr == 4) / nreps)
+  
+  
+  # cat("P(l1 = 1) = ", sum(l1_arr == 1) / nreps, "\n")
+  # cat("P(l2 - l1 = -1) = ", sum(l2_arr - l1_arr == -1) / nreps, "\n")
 }
 
 ngtm <- function(k, m, nreps) {
