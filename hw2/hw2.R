@@ -1,3 +1,6 @@
+# "Thomas Le 913081873"
+# "Armand Nasser 912679383"
+
 sim1 <- function(nreps) {
   nstops <- 2
   count <- 0
@@ -27,30 +30,40 @@ sim1 <- function(nreps) {
   El2 = mean(l2_arr)
   El2_minus_l1 = mean(l2_arr - l1_arr)
   
-  cat("E(l1) = ", El1, "\n")
-  cat("E(l2) = ", El2, "\n")
-  cat("E(l2-l1) = ", El2_minus_l1, "\n")
+  El1sq = mean(l1_arr^2)
+  El2sq = mean(l2_arr^2)
+  El2_minus_l1sq = mean((l2_arr - l1_arr)^2)
   
-  # print(sum(l2_arr == 1) / nreps)
-  # print(sum(l2_arr == 2) / nreps)
-  # print(sum(l2_arr == 3) / nreps)
-  # print(sum(l2_arr == 4) / nreps)
+  # cat("E(l1) = ", El1, "\n")
+  # cat("E(l2) = ", El2, "\n")
+  # cat("E(l2-l1) = ", El2_minus_l1, "\n")
   
+  # cat("E(l1^2) = ", El1sq, "\n")
+  # cat("E(l2^2) = ", El2sq, "\n")
+  # cat("E((l2-l1)^2) = ", El2_minus_l1sq, "\n")
+  
+  varl1 = El1sq - El1^2
+  varl2 = El2sq - El2^2
+  varl2_minus_l1 = El2_minus_l1sq - El2_minus_l1^2
+  
+  cat("Var(L1) =", varl1, "\n")
+  cat("Var(L2) =", varl2, "\n")
+  cat("Var(L2 - L1) =", varl2_minus_l1, "\n")
 }
 
-ngtm <- function(k, m, nreps) {
+sim2 <- function(r, s, nreps) {
   count <- 0
   total_winnings <- 0
   for (rep in 1:nreps) {
     consech <- 0
     # for m amt of tosses
-    for (i in 1:m) {
+    for (i in 1:s) {
       toss <- sample(0:1, 1)
       # if heads, increment consecutive heads num
       if (toss) {
         consech <- consech + 1
-        # if reached k consecutive heads, break from loop
-        if (consech == k) break
+        # if reached r consecutive heads, break from loop
+        if (consech == r) break
       }
       else consech <- 0
     }
@@ -59,7 +72,7 @@ ngtm <- function(k, m, nreps) {
     
     # if (consech < k) count <- count + 1
   }
-  cat("Expected value is:", total_winnings/nreps, "\n");
+  cat("Expected winnings is:", total_winnings/nreps, "\n");
 }
 
 library("partitions")
@@ -67,10 +80,17 @@ library("gtools")
 
 permn <- function(x, m, FUN=NULL) {
   p <- permutations(length(x), m, x)
-  print(p)
+  # print(p)
   
   for (row in 1:nrow(p)) {
     res <- FUN(p[row])
     print(res)
   }
 }
+
+# no answer for 3 b
+
+# Problem 5 plot
+
+# X <- 0:10
+# plot(dbinom(X,10,0.97), col="black", main = "Binomial Distribution", xlab = "Number of chips Produced", ylab = "Probability") 
