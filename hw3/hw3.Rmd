@@ -1,0 +1,116 @@
+---
+title: "HW3"
+author: "Thomas Le, ID: 913091973 ; Armand Nasseri ID: 912679383"
+date: "May 30, 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+We are taking one of our free late days.
+
+# A
+
+```{r, echo=TRUE}
+sim1 <- function(nreps, p=0.2, k=3) {
+  # get rand distrubtion of nreps size
+  N <- rgeom(nreps, p)
+  
+  # add 1 since we have k = 1, 2 ...
+  N <- N + 1
+  
+  # result is N where N <= k
+  res <- N[N <= k]
+  return(mean(res))
+}
+```
+
+# B
+
+Cov(D, N) = E[DN] - (E[D] * E[N])
+
+$E[DN] = \sum_{i=1}^{10} i(11-i)(1-0.15)^{i-1}(0.15) + \sum_{i=11}^{\infty} i(i-11)0.85^{i-1}0.15$
+
+$E[D] = \sum_{i=1}^{10} (11-i)(1-0.15)^{i-1}(0.15) + \sum_{i=11}^{\infty} (i-11)0.85^{i-1}0.15$
+
+$E[N] = \frac{1}{p}$ 
+
+Then, $Cov(D, N) = \sum_{i=1}^{10} i(11-i)(1-0.15)^{i-1}(0.15) + \sum_{i=11}^{\infty} i(i-11)0.85^{i-1}0.15 - [\sum_{i=1}^{10} (11-i)(1-0.15)^{i-1}(0.15) + \sum_{i=11}^{\infty} (i-11)0.85^{i-1}0.15 * \frac{1}{p}]$
+
+Plugging in p = 0.15 into a calculator...=>
+
+(17.14228235171777 + 26.031171240606657) - ((5.448954957930762 + 1.115621624597426) * (6.666667)) = -0.5903925
+
+
+# C
+
+```{r, echo=TRUE}
+library(plyr)
+
+# get data, skip header row
+original_data <- read.table("./dnc-corecipient/out.dnc-corecipient", skip=1)
+
+# rename cols 1 and 2
+colnames(original_data) <- c("id1", "id2", "nummsgs")
+
+# select rows where id1 < id2 to remove duplicate data, keeping only cols 1 and 2
+dnc <- original_data[original_data$id1 < original_data$id2, c(1,2)]
+
+# create empty vector of 0s; get degrees by counting num occurences of each val
+degrees <- rep(0, nrow(dnc))
+for (i in 1:nrow(dnc)) {
+  degrees[dnc[i, "id1"]] <- degrees[dnc[i, "id1"]] + 1
+  degrees[dnc[i, "id2"]] <- degrees[dnc[i, "id2"]] + 1
+}
+
+# get max degree, to know what i goes up to
+max_degree <- max(degrees)
+  
+# mi is count of recipients having degree i
+mi <- rep(0, max_degree)
+for (i in 1:nrow(dnc)) {
+  # for non zero degrees
+  if (degrees[i] != 0) {
+    # increment its count
+    mi[degrees[i]] <- mi[degrees[i]] + 1
+  }
+}
+
+# since calling log on 0 returns -Inf, we replace 0s with NA so plot will ignore the NA vals
+for (i in 1:length(mi)) {
+  if (mi[i] == 0)
+    mi[i] <- NA
+}
+
+# i goes from 1 to max degree
+i <- c(1:max_degree)
+
+# apply log to i and mi
+log_i <- log(i)
+log_mi <- log(mi)
+
+# apply linear model function and plot
+lm(log_i ~ log_mi)
+plot(log_i, log_mi)
+abline(lm(log_i ~ log_mi))
+
+summary(lm(log_i ~ log_mi))
+```
+
+An estimate for gamma was found by applying a linear model function onto the
+logarithmic values of m_i and i, where m_i denotes the count of recipients
+having degree i in the data, i = 1, 2, 3 ... . 
+
+Gamma is estimated from the linear model to be about -0.8616, the slope from the
+linear fit. Interpreting that in context of the data means that as the degree i
+grows larger (i.e. number of times a recipient is inolved in a message), then
+m_i (count of unique recipients being involved in i messages) grows smaller.
+In simpler terms, it is a small amount of people that are involved in the most messages, 
+which matches the description of a power law.
+
+Viewing the summary of the linear model, we see that the p-value of 2.2e-16 is
+less than 0.05. Thus, the model is statistically significant and that the data
+fits the power law distribution well enough.
+
