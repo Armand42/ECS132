@@ -15,8 +15,8 @@ sim1 <- function(nreps, p=0.2, k=3) {
 
 ###### PROBLEM C ########
 
-# made a function as a way to comment out the code
-plotC <- function() {
+# made it a function as a way to comment out the code
+problemC <- function() {
   # get data, skip header row
   original_data <- read.table("./dnc-corecipient/out.dnc-corecipient", skip=1)
   
@@ -100,7 +100,6 @@ daccum <- function(i, k){
 paccum <- function(i, k){
   total <- 0
   
-  # sum up all values of daccum up to i
   for(j in 1:i){
     total <- total + daccum(j, k)
   }

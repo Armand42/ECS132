@@ -1,6 +1,6 @@
 ---
 title: "HW3"
-author: "Thomas Le, ID: 913091973 ; Armand Nasseri ID: 912679383"
+author: "Thomas Le, ID: 913091973 ; Armand Nasseri, ID: 912679383"
 date: "May 30, 2019"
 output: pdf_document
 ---
@@ -13,19 +13,7 @@ We are taking one of our free late days.
 
 # A
 
-```{r, echo=TRUE}
-sim1 <- function(nreps, p=0.2, k=3) {
-  # get rand distrubtion of nreps size
-  N <- rgeom(nreps, p)
-  
-  # add 1 since we have k = 1, 2 ...
-  N <- N + 1
-  
-  # result is N where N <= k
-  res <- N[N <= k]
-  return(mean(res))
-}
-```
+NOTE: Written A is attached at the bottom of the pdf.
 
 # B
 
@@ -39,7 +27,7 @@ $E[N] = \frac{1}{p}$
 
 Then, $Cov(D, N) = \sum_{i=1}^{10} i(11-i)(1-0.15)^{i-1}(0.15) + \sum_{i=11}^{\infty} i(i-11)0.85^{i-1}0.15 - [\sum_{i=1}^{10} (11-i)(1-0.15)^{i-1}(0.15) + \sum_{i=11}^{\infty} (i-11)0.85^{i-1}0.15 * \frac{1}{p}]$
 
-Plugging in p = 0.15 into a calculator...=>
+Plugging in p = 0.15 into a calculator =>
 
 (17.14228235171777 + 26.031171240606657) - ((5.448954957930762 + 1.115621624597426) * (6.666667)) = -0.5903925
 
@@ -71,11 +59,8 @@ max_degree <- max(degrees)
 # mi is count of recipients having degree i
 mi <- rep(0, max_degree)
 for (i in 1:nrow(dnc)) {
-  # for non zero degrees
-  if (degrees[i] != 0) {
-    # increment its count
-    mi[degrees[i]] <- mi[degrees[i]] + 1
-  }
+  # increment its count
+  mi[degrees[i]] <- mi[degrees[i]] + 1
 }
 
 # since calling log on 0 returns -Inf, we replace 0s with NA so plot will ignore the NA vals
