@@ -85,7 +85,8 @@ weights <- rexp(10, lambda)
 cat("Randomized weights are:") 
 weights
 
-z <- qnorm(0.93)
+# for a 93% CI, due to symmetry there is 3.5% on left and right side, so we search for Z val at 0.965
+z <- qnorm(0.965)
 
 xbar <- mean(weights)
 
